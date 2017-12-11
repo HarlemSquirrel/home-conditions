@@ -26,7 +26,7 @@ def try_read_data(channel=0):
             print('Got payload size={} value="{}"'.format(len, receive_payload.decode('utf-8')))
             decoded_payload = receive_payload.decode('utf-8')
             print('Decoded payload: {}'.format(decoded_payload))
-            temp_info = json.loads(receive_payload.decode('utf-8')[0..(decoded_payload.length()-1)])
+            temp_info = json.loads("".join([decoded_payload.rsplit("}" , 1)[0] , "}"]) )
             print('Parsed temperature as {} degrees C'.format(temp_info['temp_c']))
             # First, stop listening so we can talk
             radio.stopListening()
