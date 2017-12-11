@@ -11,12 +11,7 @@
 //
 
 // Set up nRF24L01 radio on SPI bus plus pins 7 & 8
-
 RF24 radio(7,8);
-
-// sets the role of this unit in hardware.  Connect to GND to be the 'pong' receiver
-// Leave open to be the 'ping' transmitter
-const int role_pin = 5;
 
 // Set up temperature sensor
 const int sensorPin = A0;
@@ -30,32 +25,8 @@ const float baselineTemp = 24.0;
 const uint64_t pipes[2] = { 0xF0F0F0F0E1LL, 0xF0F0F0F0D2LL };
 
 //
-// Role management
-//
-// Set up role.  This sketch uses the same software for all the nodes
-// in this system.  Doing so greatly simplifies testing.  The hardware itself specifies
-// which node it is.
-//
-// This is done through the role_pin
-//
-
-// The various roles supported by this sketch
-typedef enum { role_ping_out = 1, role_pong_back } role_e;
-
-// The debug-friendly names of those roles
-const char* role_friendly_name[] = { "invalid", "Ping out", "Pong back"};
-
-// The role of the current running sketch
-role_e role;
-
-//
 // Payload
 //
-
-//const int min_payload_size = 4;
-//const int max_payload_size = 32;
-//const int payload_size_increments_by = 1;
-//int next_payload_size = min_payload_size;
 
 //char receive_payload[max_payload_size+1]; // +1 to allow room for a terminating NULL char
 char receive_payload[25];
@@ -135,22 +106,17 @@ void loop(void)
   Serial.print(", degrees F: ");
   Serial.println(temp_f);
 
-  // The payload will always be the same, what will change is how much of it we send.
-  //static char send_payload[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ789012";
-
-  
-  char json[18];
+  // Build json as char array
+  char json[22];
   char temp_c_char[6];
   dtostrf(temp_c,5,2,temp_c_char);
-  sprintf(json, "{ temp_c: %s }", temp_c_char);
-  //dtostrf(temp_c,5,2,temperatureChars);
-  //sprintf(temperatureChars, "{ temp_c: %f }", dtostrf(temp_c);
+  sprintf(json, "{ \"temp_c\": \"%s\" }", temp_c_char);
 
   // First, stop listening so we can talk.
   radio.stopListening();
 
   // Take the time, and send it.  This will block until complete
-  Serial.println("Now sending temperature...");
+  Serial.println("Now sending temperature JSON...");
   Serial.println(json);
   radio.write( json, sizeof(json));
 
@@ -194,6 +160,3 @@ void loop(void)
   // Try again 10s later
   delay(10000);
 }
-
-// vim:cin:ai:sts=2 sw=2 ft=cpp
-
