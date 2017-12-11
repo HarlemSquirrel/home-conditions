@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+import json
 import time
 
-# Import the RF24 library to control the rf2401l+ transceiver module
+# Import the RF24 library to control the nRF24L01+ transceiver module
 # https://github.com/nRF24/RF24
 from RF24 import *
 
@@ -23,6 +24,8 @@ def try_read_data(channel=0):
             len = radio.getDynamicPayloadSize()
             receive_payload = radio.read(len)
             print('Got payload size={} value="{}"'.format(len, receive_payload.decode('utf-8')))
+            temp_info = json.loads(receive_payload)
+            print('Parsed temperature as {} degrees C'.format(temp_info['temp_c']))
             # First, stop listening so we can talk
             radio.stopListening()
 
