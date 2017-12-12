@@ -33,4 +33,4 @@ def hello_world():
 @app.route('/data')
 def data_route():
     for temp_row in query_db('select * from temps'):
-    print temp_row['location'], ': ', temp_row['temp_c'], 'degrees C, ', temp_row['temp_f'], 'degrees F'
+        print temp_row['location'], ': ', temp_row['temp_c'], 'degrees C, ', temp_row['temp_f'], 'degrees F'
