@@ -43,7 +43,7 @@ def try_read_data(channel=0):
             print('Decoded payload: {}'.format(decoded_payload))
             # Fix extra bytes after decoding. See https://stackoverflow.com/questions/14150823/python-json-decode-valueerror-extra-data
             temp_info = json.loads("".join([decoded_payload.rsplit("}" , 1)[0] , "}"]) )
-            print('Parsed temperature as {} °C'.format(temp_info['temp_c']))
+            print('Parsed temperature as {} degrees C'.format(temp_info['temp_c']))
 
             save_temp(temp_info)
 
