@@ -39,28 +39,24 @@
       var timestamps = {{ timestamps|safe }}
       var ctemps = {{ ctemps|safe }}
       var humidities = {{ humidities|safe }}
-      var tempsData = [
-        {
-          name: 'Temperature',
-          x: timestamps,
-          y: ctemps,
-          type: 'scatter',
-          mode: 'lines',
-          line: { color: '#700' }
-        }
-      ];
-      var humiditiesData = [
-        {
-          name: 'Humidity',
-          x: timestamps,
-          y: humidities,
-          type: 'scatter',
-          mode: 'lines',
-          line: { color: '#007' }
-        }
-      ];
+      var tempsData = {
+        name: 'Temperature',
+        x: timestamps,
+        y: ctemps,
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#700' }
+      }
+      var humiditiesData = {
+        name: 'Humidity',
+        x: timestamps,
+        y: humidities,
+        type: 'scatter',
+        mode: 'lines',
+        line: { color: '#007' }
+      }
 
-      Plotly.newPlot('chart', [humiditiesData, tempsData]);
+      Plotly.newPlot('chart', [humiditiesData, tempsData], { title: 'Conditions' });
     </script>
   </body>
 </html>
