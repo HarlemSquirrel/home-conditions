@@ -27,7 +27,7 @@ def create_temps_table(cursor):
     ''')
 
 def temp_f_from_c(temp_c):
-    temp_c * 1.8 + 32
+    float(temp_c) * 1.8 + 32
 
 def save_temp(data):
     db = sqlite3.connect(DB_PATH)
