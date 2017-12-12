@@ -34,10 +34,8 @@
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript">
-      {% timestamps = [i[0] for i in temps] %}
-      {% temps = [i[2] for i in temps] %}
-      var timestamps = {{ timestamps|safe }}
-      var temps = {{ temps|safe }}
+      var timestamps = {{ [i[0] for i in temps]|safe }}
+      var temps = {{ [i[2] for i in temps]|safe }}
       var data = [
         {
           name: 'Temperatures',
