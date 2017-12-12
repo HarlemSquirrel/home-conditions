@@ -62,7 +62,7 @@ def try_read_data(channel=0):
 
 pipes = [0xF0F0F0F0E1, 0xF0F0F0F0D2]
 min_payload_size = 4
-max_payload_size = 32
+max_payload_size = 44
 payload_size_increments_by = 1
 next_payload_size = min_payload_size
 inp_role = 'none'
