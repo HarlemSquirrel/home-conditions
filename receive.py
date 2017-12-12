@@ -26,13 +26,16 @@ def create_temps_table(cursor):
                            location TEXT, humidity TEXT, temp_c TEXT, temp_f TEXT)
     ''')
 
+def temp_f_from_c(temp_c):
+    temp_c * 1.8 + 32
+
 def save_temp(data):
     db = sqlite3.connect(DB_PATH)
 
     cursor = db.cursor()
     create_temps_table(cursor)
     cursor.execute('''INSERT INTO temps(location, humidity, temp_c, temp_f)
-                      VALUES(?,?,?,?)''', ('home', data['h'], data['tempc'], data['tempf']))
+                      VALUES(?,?,?,?)''', ('home', data['h'], data['tempc'], temp_f_from_c(data['tempc'])))
     db.commit()
     db.close()
 
@@ -61,12 +64,12 @@ def try_read_data(channel=0):
             radio.startListening()
 
 pipes = [0xF0F0F0F0E1, 0xF0F0F0F0D2]
-min_payload_size = 4
-max_payload_size = 44
-payload_size_increments_by = 1
-next_payload_size = min_payload_size
-inp_role = 'none'
-millis = lambda: int(round(time.time() * 1000))
+# min_payload_size = 4
+# max_payload_size = 44
+# payload_size_increments_by = 1
+# next_payload_size = min_payload_size
+# inp_role = 'none'
+# millis = lambda: int(round(time.time() * 1000))
 
 radio.begin()
 radio.enableDynamicPayloads()
