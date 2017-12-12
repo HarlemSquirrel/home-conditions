@@ -10,7 +10,7 @@
     <div class="container">
       <h1>Home Temperatures</h1>
 
-      <div class="chart"></div>
+      <div id="chart"></div>
 
       <table class="table">
         <thead>
@@ -45,7 +45,7 @@
         }
       ];
 
-      Plotly.newPlot('myDiv', data);
+      Plotly.newPlot('chart', data);
     </script>
   </body>
 </html>
