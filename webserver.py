@@ -5,13 +5,14 @@ from flask import Flask
 app = Flask(__name__)
 
 import sqlite3
+from flask import g
 
 DATABASE = 'data/data.sqlite3'
 
 def get_db():
-    db = getattr(flask._app_ctx_stack.top , '_database', None)
+    db = getattr(g, '_database', None)
     if db is None:
-        db = flask._app_ctx_stack.top ._database = sqlite3.connect(DATABASE)
+        db = g._database = sqlite3.connect(DATABASE)
     return db
 
 def query_db(query, args=(), one=False):
@@ -22,7 +23,7 @@ def query_db(query, args=(), one=False):
 
 @app.teardown_appcontext
 def close_connection(exception):
-    db = getattr(flask._app_ctx_stack.top , '_database', None)
+    db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
@@ -32,5 +33,5 @@ def hello_world():
 
 @app.route('/data')
 def data_route():
-    for temp_row in query_db('select * from temps'):
+    for temp_row in query_db('select location, temp_c, temp_f from temps'):
         print temp_row['location'], ': ', temp_row['temp_c'], 'degrees C, ', temp_row['temp_f'], 'degrees F'
