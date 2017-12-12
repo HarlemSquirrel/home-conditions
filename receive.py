@@ -11,7 +11,7 @@ from RF24 import *
 
 import RPi.GPIO as GPIO
 
-DB_PATH = 'data/data'
+DB_PATH = 'data/data.sqlite3'
 irq_gpio_pin = None
 radio = RF24(22, 0);
 
@@ -20,14 +20,17 @@ radio = RF24(22, 0);
 #irq_gpio_pin = 24
 
 ##########################################
+def create_temps_table(cursor):
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS temps(id INTEGER PRIMARY KEY, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                           location TEXT, temp_c TEXT, temp_f TEXT)
+    ''')
+
 def save_temp(data):
     db = sqlite3.connect(DB_PATH)
 
     cursor = db.cursor()
-    cursor.execute('''
-        CREATE TABLE temps(id INTEGER PRIMARY KEY, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                           location TEXT, temp_c TEXT, temp_f TEXT)
-    ''')
+    create_temps_table(cursor)
     cursor.execute('''INSERT INTO temps(location, temp_c, temp_f)
                       VALUES(?,?,?)''', ('home', data['tempc'], data['tempf']))
     db.commit()
