@@ -15,6 +15,15 @@ MOSI | 6 | Blue   | MO  | digIO 11 | MOSI    | 19
 MISO | 7 | Violet | MI  | digIO 12 | MISO    | 21
 IRQ  | 8 | Gray   | IRQ | -        | -       | -
 
+### DHT22
+
+DHT22 (left to right) | Arduino pin
+--|--
+1 VCC (5V)         | VCC 5V
+2 SIGnal           | D2
+3 NC Not connected | - / GND
+4 GND              | GND
+
 ## Running the webserver
 
 ```
