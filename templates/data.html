@@ -20,7 +20,7 @@
           <th>Temp(F)</th>
         </thead>
         <tbody>
-          {% for row in temps: %}
+          {% for row in table: %}
           <tr>
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
@@ -34,13 +34,13 @@
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript">
-      var timestamps = {{ [i[0] for i in temps]|safe }}
-      var temps = {{ [i[2] for i in temps]|safe }}
+      var timestamps = {{ timestamps|safe }}
+      var ctemps = {{ ctemps|safe }}
       var data = [
         {
           name: 'Temperatures',
           x: timestamps,
-          y: temps,
+          y: ctemps,
           type: 'scatter'
         }
       ];
