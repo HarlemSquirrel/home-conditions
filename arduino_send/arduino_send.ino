@@ -107,10 +107,12 @@ void loop(void)
   Serial.println(temp_f);
 
   // Build json as char array
-  char json[22];
+  char json[32];
   char temp_c_char[6];
-  dtostrf(temp_c,5,2,temp_c_char);
-  sprintf(json, "{ \"temp_c\": \"%s\" }", temp_c_char);
+  char temp_f_char[6];
+  dtostrf(temp_c,4,1,temp_c_char);
+  dtostrf(temp_f,4,1,temp_f_char);
+  sprintf(json, "{\"tempc\":\"%s\",\"tempf\":\"%s\"}", temp_c_char, temp_f_char);
 
   // First, stop listening so we can talk.
   radio.stopListening();
