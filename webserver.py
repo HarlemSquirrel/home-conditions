@@ -34,7 +34,7 @@ def hello_world():
 
 @app.route('/data')
 def data_route():
-    return render_template('data.html', temps=query_db('select location, temp_c, temp_f from temps'))
+    return render_template('data.html', temps=query_db('select timestamp, location, temp_c, temp_f from temps'))
     # for temp_row in query_db('select location, temp_c, temp_f from temps'):
         # print temp_row
         # print temp_row[0], ': ', temp_row[1], 'degrees C, ', temp_row[2], 'degrees F'
