@@ -93,14 +93,14 @@ void loop(void)
   Serial.println(temp_f);
 
   // Build json as char array
-  char json[32];
+  char json[28];
   char h_char[6];
   char temp_c_char[6];
   //char temp_f_char[6];
   dtostrf(h,4,1,h_char);
   dtostrf(temp_c,4,1,temp_c_char);
   //dtostrf(temp_f,4,1,temp_f_char);
-  sprintf(json, "{\"h\":%s,\"tempc\":%s}", h_char, temp_c_char);
+  sprintf(json, "{\"h\":\"%s\",\"tempc\":\"%s\"}", h_char, temp_c_char);
 
   // First, stop listening so we can talk.
   radio.stopListening();
