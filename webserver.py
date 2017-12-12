@@ -37,7 +37,7 @@ def data_route():
     table = query_db('select timestamp, location, temp_c, temp_f from temps')
     timestamps = [i[0] for i in table]
     ctemps = [i[2] for i in table]
-    return render_template('data.html', table=table, timestamps=timestamps, ctemps=ctemps))
+    return render_template('data.html', table=table, timestamps=timestamps, ctemps=ctemps)
     # for temp_row in query_db('select location, temp_c, temp_f from temps'):
         # print temp_row
         # print temp_row[0], ': ', temp_row[1], 'degrees C, ', temp_row[2], 'degrees F'
