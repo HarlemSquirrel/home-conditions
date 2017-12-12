@@ -3,6 +3,7 @@
 from __future__ import print_function
 import json
 import time
+import sqlite3
 
 # Import the RF24 library to control the nRF24L01+ transceiver module
 # https://github.com/nRF24/RF24
@@ -10,6 +11,7 @@ from RF24 import *
 
 import RPi.GPIO as GPIO
 
+DB_PATH = 'data/data'
 irq_gpio_pin = None
 radio = RF24(22, 0);
 
@@ -18,6 +20,19 @@ radio = RF24(22, 0);
 #irq_gpio_pin = 24
 
 ##########################################
+def save_temp(data):
+    db = sqlite3.connect(DB_PATH)
+
+    cursor = db.cursor()
+    cursor.execute('''
+        CREATE TABLE temps(id INTEGER PRIMARY KEY, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                           location TEXT, temp_c TEXT, temp_f TEXT)
+    ''')
+    cursor.execute('''INSERT INTO temps(location, temp_c, temp_f)
+                      VALUES(?,?,?)''', ('home', data['temp_c'], data['temp_f']))
+    db.commit()
+    db.close()
+
 def try_read_data(channel=0):
     if radio.available():
         while radio.available():
@@ -29,6 +44,9 @@ def try_read_data(channel=0):
             # Fix extra bytes after decoding. See https://stackoverflow.com/questions/14150823/python-json-decode-valueerror-extra-data
             temp_info = json.loads("".join([decoded_payload.rsplit("}" , 1)[0] , "}"]) )
             print('Parsed temperature as {} °C'.format(temp_info['temp_c']))
+
+            save_temp(temp_info)
+
             # First, stop listening so we can talk
             radio.stopListening()
 
