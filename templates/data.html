@@ -34,11 +34,13 @@
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript">
+      var timestamps = {{ [i[0] for i in temps]|safe }}
+      var temps = {{ [i[1] for i in temps]|safe }}
       var data = [
         {
           name: 'Temperatures',
-          x: {{ [i[0] for i in temps] }}, // timestamps
-          y: {{ [i[2] for i in temps] }}, // temp in C
+          x: timestamps,
+          y: temps,
           type: 'scatter'
         }
       ];
