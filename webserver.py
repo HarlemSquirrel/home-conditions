@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import json
 import sqlite3
 
 # Install flask with `apt install python-flask` or `pip install Flask`
@@ -37,7 +38,7 @@ def data_route():
     table = query_db('select timestamp, location, temp_c, temp_f from temps')
     timestamps = [i[0] for i in table]
     ctemps = [i[2] for i in table]
-    return render_template('data.html', table=table, timestamps=timestamps, ctemps=ctemps)
+    return render_template('data.html', table=table, timestamps=json.dumps(timestamps), ctemps=json.dumps(ctemps))
     # for temp_row in query_db('select location, temp_c, temp_f from temps'):
         # print temp_row
         # print temp_row[0], ': ', temp_row[1], 'degrees C, ', temp_row[2], 'degrees F'
