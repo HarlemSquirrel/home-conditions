@@ -16,6 +16,7 @@
         <thead>
           <th>Timestamp</th>
           <th>Location</th>
+          <th>Humidity(%)</th>
           <th>Temp(C)</th>
           <th>Temp(F)</th>
         </thead>
@@ -26,6 +27,7 @@
             <td>{{ row[1] }}</td>
             <td>{{ row[2] }}</td>
             <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -36,11 +38,20 @@
     <script type="text/javascript">
       var timestamps = {{ timestamps|safe }}
       var ctemps = {{ ctemps|safe }}
-      var data = [
+      var humidities = {{ humidities|safe }}
+      var tempsData = [
         {
-          name: 'Temperatures',
+          name: 'Temperature',
           x: timestamps,
           y: ctemps,
+          type: 'scatter'
+        }
+      ];
+      var humiditiesData = [
+        {
+          name: 'Humidity',
+          x: timestamps,
+          y: humidities,
           type: 'scatter'
         }
       ];

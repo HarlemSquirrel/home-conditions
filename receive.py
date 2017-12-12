@@ -23,7 +23,7 @@ radio = RF24(22, 0);
 def create_temps_table(cursor):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS temps(id INTEGER PRIMARY KEY, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                           location TEXT, temp_c TEXT, temp_f TEXT)
+                           location TEXT, humidity TEXT, temp_c TEXT, temp_f TEXT)
     ''')
 
 def save_temp(data):
@@ -31,8 +31,8 @@ def save_temp(data):
 
     cursor = db.cursor()
     create_temps_table(cursor)
-    cursor.execute('''INSERT INTO temps(location, temp_c, temp_f)
-                      VALUES(?,?,?)''', ('home', data['tempc'], data['tempf']))
+    cursor.execute('''INSERT INTO temps(location, humidity, temp_c, temp_f)
+                      VALUES(?,?,?,?)''', ('home', data['h'], data['tempc'], data['tempf']))
     db.commit()
     db.close()
 
