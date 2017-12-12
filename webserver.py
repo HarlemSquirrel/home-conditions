@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
+import sqlite3
+
 # Install flask with `apt install python-flask` or `pip install Flask`
 from flask import Flask
-app = Flask(__name__)
-
-import sqlite3
 from flask import g
+from flask import render_template
 
+app = Flask(__name__)
 DATABASE = 'data/data.sqlite3'
 
 def get_db():
@@ -33,6 +34,7 @@ def hello_world():
 
 @app.route('/data')
 def data_route():
-    for temp_row in query_db('select location, temp_c, temp_f from temps'):
-        print temp_row
-        print temp_row[0], ': ', temp_row[1], 'degrees C, ', temp_row[2], 'degrees F'
+    return render_template('data.html', temps=query_db('select location, temp_c, temp_f from temps'))
+    # for temp_row in query_db('select location, temp_c, temp_f from temps'):
+        # print temp_row
+        # print temp_row[0], ': ', temp_row[1], 'degrees C, ', temp_row[2], 'degrees F'
