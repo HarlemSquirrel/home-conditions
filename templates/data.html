@@ -10,6 +10,8 @@
     <div class="container">
       <h1>Home Temperatures</h1>
 
+      <div class="chart"></div>
+
       <table class="table">
         <thead>
           <th>Timestamp</th>
@@ -29,5 +31,19 @@
         </tbody>
       </table>
     </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript">
+      var data = [
+        {
+          name: 'Temperatures',
+          x: {{ [i[0] for i in temps] }}, // timestamps
+          y: {{ [i[2] for i in temps] }}, // temp in C
+          type: 'scatter'
+        }
+      ];
+
+      Plotly.newPlot('myDiv', data);
+    </script>
   </body>
 </html>
