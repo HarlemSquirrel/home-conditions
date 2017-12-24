@@ -5,7 +5,7 @@
 ### NRF24L01
 
 Signal | NRF24L01 PIN | Cable COLOR | "Base Module" PIN | Arduino PIN | RPi | RPi 3 PIN
---|--|--|--|--
+--|--|--|--|--|--|--
 GND  | 1 | Brown  | GND | GND      | GND     | 6
 VCC  | 2 | Red    | VCC | 3.3 V    | 3.3 V   | 1
 CE   | 3 | Orange | CD  | digIO 7  | GPIO 22 | 15
