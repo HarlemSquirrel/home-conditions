@@ -42,7 +42,7 @@ void setup(void)
   Serial.begin(9600);
 
   // Setup and configure rf radio
-  Serial.print('Starting up radio.');
+  Serial.print("Starting up radio.");
   radio.begin();
   radio.enableDynamicPayloads();
   // optionally, increase the delay between retries & # of retries
@@ -65,7 +65,7 @@ void setup(void)
   radio.printDetails();
 
   // Temperature sensor setup
-  Serial.print('Starting up DHT22.');
+  Serial.print("Starting up DHT22.");
   dht.begin();
 }
 
@@ -124,6 +124,9 @@ void loop(void)
   if ( timeout )
   {
     Serial.println(F("Failed, response timed out."));
+    Serial.print("Sleeping 1 min...");
+    //    m * s  * ms
+    delay(1 * 60 * 1000);
   }
   else
   {
@@ -147,6 +150,7 @@ void loop(void)
     Serial.println(receive_payload);
   }
 
-  // Try again 10s later
-  delay(10000);
+  Serial.print("Sleeping 1 hour...");
+  //    h * m  * s  * ms
+  delay(1 * 60 * 60 * 1000);
 }
