@@ -75,8 +75,8 @@ void setup(void)
   Serial.print("Starting up DHT22.");
   dht.begin();
 
-  sleepTime = 60 * 60 * 1000; // 60 minutes
-  errorSleepTime = 60 * 1000; // 1 minute
+  sleepTime = 3600000; // 60 minutes
+  errorSleepTime = 60000; // 1 minute
   
 }
 
@@ -135,9 +135,9 @@ void loop(void)
   if ( timeout )
   {
     Serial.println(F("Failed, response timed out."));
-    Serial.print("Sleeping 1 min...");
-    sleep.pwrDownMode();
-    sleep.sleepDelay(errorSleepTime);
+    Serial.print("Delaying 60 seconds...");
+    delay(errorSleepTime);
+    return;
   }
   else
   {
@@ -162,6 +162,6 @@ void loop(void)
   }
 
   Serial.print("Sleeping 1 hour...");
-  sleep.pwrDownMode(); //set sleep mode
-  sleep.sleepDelay(sleepTime); //sleep for: sleepTime
+  sleep.pwrDownMode();
+  sleep.sleepDelay(sleepTime);
 }
