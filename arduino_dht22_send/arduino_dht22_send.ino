@@ -5,11 +5,18 @@
 #include <SPI.h>
 
 // https://github.com/nRF24/RF24
-//#include "nRF24L01.h"
 #include "RF24.h"
 
 // https://github.com/adafruit/DHT-sensor-library
 #include "DHT.h"
+
+// https://github.com/n0m1/Sleep_n0m1
+#include <Sleep_n0m1.h>
+
+// Sleep_n0m1 configuration
+Sleep sleep;
+unsigned long sleepTime; //how long you want the arduino to sleep
+unsigned long errorSleepTime;
 
 //
 // Hardware configuration
@@ -67,6 +74,10 @@ void setup(void)
   // Temperature sensor setup
   Serial.print("Starting up DHT22.");
   dht.begin();
+
+  sleepTime = 60 * 60 * 1000; // 60 minutes
+  errorSleepTime = 60 * 1000; // 1 minute
+  
 }
 
 void loop(void)
@@ -125,8 +136,8 @@ void loop(void)
   {
     Serial.println(F("Failed, response timed out."));
     Serial.print("Sleeping 1 min...");
-    //    m * s  * ms
-    delay(1 * 60 * 1000);
+    sleep.pwrDownMode();
+    sleep.sleepDelay(errorSleepTime);
   }
   else
   {
@@ -151,6 +162,6 @@ void loop(void)
   }
 
   Serial.print("Sleeping 1 hour...");
-  //    h * m  * s  * ms
-  delay(1 * 60 * 60 * 1000);
+  sleep.pwrDownMode(); //set sleep mode
+  sleep.sleepDelay(sleepTime); //sleep for: sleepTime
 }
