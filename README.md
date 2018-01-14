@@ -24,8 +24,27 @@ DHT22 (left to right) | Arduino pin
 3 NC Not connected | - / GND
 4 GND              | GND
 
+
+
 ## Running the webserver
 
 ```
 $ FLASK_APP=webserver.py python -m flask run --host=0.0.0.0
+```
+
+## Running as systemd services
+
+Copy the service files
+
+```
+sudo cp systemd_services/*.service /etc/systemd/system/
+```
+
+Enable and start the services
+
+```
+sudo systemctl enable home-conditions-receive.service
+sudo systemctl enable home-conditions-webserver.service
+sudo systemctl start home-conditions-receive.service
+sudo systemctl start home-conditions-webserver.service
 ```
