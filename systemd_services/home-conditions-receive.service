@@ -4,9 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=pi
-WorkingDirectory=/home/pi/code/home-conditions
-ExecStart=sudo python /home/pi/code/home-conditions/receive.py
+User=root
+WorkingDirectory=/home/pi/code/home-conditions/
+ExecStart=/home/pi/code/home-conditions/receive.py
 Restart=on-abort
 
 [Install]
