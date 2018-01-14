@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=pi
 WorkingDirectory=/home/pi/code/home-conditions
-ExecStart="FLASK_APP=webserver.py python -m flask run --host=0.0.0.0"
+ExecStart=/home/pi/code/home-conditions/webserver-start.sh
 Restart=on-abort
 
 [Install]
