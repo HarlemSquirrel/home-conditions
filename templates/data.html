@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <title>Home Temperature</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
   </head>
   <body class="bg-dark text-light">
     <div class="container">
@@ -12,7 +18,7 @@
 
       <div id="chart"></div>
 
-      <table class="table">
+      <table class="table" id="conditions-table">
         <thead>
           <th>Timestamp</th>
           <th>Location</th>
@@ -27,12 +33,17 @@
             <td>{{ row[1] }}</td>
             <td>{{ row[2] }}</td>
             <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
+            <td>{{ Number(row[3]) * 1.8 + 32 }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+
+    <script src="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></script>
+    <script type="text/javascript">
+      $('#conditions-table').DataTable()
+    </script>
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script type="text/javascript">

@@ -23,19 +23,16 @@ radio = RF24(22, 0);
 def create_temps_table(cursor):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS temps(id INTEGER PRIMARY KEY, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                           location TEXT, humidity TEXT, temp_c TEXT, temp_f TEXT)
+                           location TEXT, humidity TEXT, temp_c TEXT)
     ''')
-
-def temp_f_from_c(temp_c):
-    float(temp_c) * 1.8 + 32
 
 def save_temp(data):
     db = sqlite3.connect(DB_PATH)
 
     cursor = db.cursor()
     create_temps_table(cursor)
-    cursor.execute('''INSERT INTO temps(location, humidity, temp_c, temp_f)
-                      VALUES(?,?,?,?)''', ('home', data['h'], data['tempc'], temp_f_from_c(data['tempc'])))
+    cursor.execute('''INSERT INTO temps(location, humidity, temp_c)
+                      VALUES(?,?,?,?)''', ('home', data['h'], data['tempc'], ))
     db.commit()
     db.close()
 
@@ -47,7 +44,8 @@ def try_read_data(channel=0):
             print('Got payload size={} value="{}"'.format(len, receive_payload.decode('utf-8')))
             decoded_payload = receive_payload.decode('utf-8')
             print('Decoded payload: {}'.format(decoded_payload))
-            # Fix extra bytes after decoding. See https://stackoverflow.com/questions/14150823/python-json-decode-valueerror-extra-data
+            # Fix extra bytes after decoding.
+            # https://stackoverflow.com/questions/14150823/python-json-decode-valueerror-extra-data
             temp_info = json.loads("".join([decoded_payload.rsplit("}" , 1)[0] , "}"]) )
             print('Parsed temperature as {} degrees C'.format(temp_info['tempc']))
 

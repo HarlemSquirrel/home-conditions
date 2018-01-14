@@ -35,11 +35,11 @@ def hello_world():
 
 @app.route('/data')
 def data_route():
-    table = query_db('select timestamp, location, humidity, temp_c, temp_f from temps')
+    table = query_db('select timestamp, location, humidity, temp_c from temps')
     timestamps = [i[0] for i in table]
     humidities = [i[2] for i in table]
     ctemps = [i[3] for i in table]
     return render_template('data.html', table=table, humidities=json.dumps(humidities), timestamps=json.dumps(timestamps), ctemps=json.dumps(ctemps))
-    # for temp_row in query_db('select location, temp_c, temp_f from temps'):
+    # for temp_row in query_db('select location, temp_c from temps'):
         # print temp_row
-        # print temp_row[0], ': ', temp_row[1], 'degrees C, ', temp_row[2], 'degrees F'
+        # print temp_row[0], ': ', temp_row[1], 'degrees C, '
