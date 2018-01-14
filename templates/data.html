@@ -47,6 +47,13 @@
     <script src="https:///cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
       $(function(){
+
+        // Replace UTC dates with local date and time
+        $('#conditions-table tr td:first-child').each(function () {
+          var date = new Date($(this).text().replace(/-/g, '/') + ' UTC')
+          $(this).text(date.toString().replace(' GMT-0500 (EST)', ''))
+        })
+
         $('#conditions-table').DataTable()
       })
     </script>
