@@ -32,7 +32,7 @@ def save_temp(data):
     cursor = db.cursor()
     create_temps_table(cursor)
     cursor.execute('''INSERT INTO temps(location, humidity, temp_c)
-                      VALUES(?,?,?,?)''', ('home', data['h'], data['tempc'], ))
+                      VALUES(?,?,?)''', ('home', data['h'], data['tempc']))
     db.commit()
     db.close()
 
