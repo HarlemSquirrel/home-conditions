@@ -18,7 +18,7 @@ Sleep sleep;
 unsigned long sleepTime = 3600000; // 60 minutes
 
 // Serial debugging
-bool serialOn = false;
+bool serialOn = true;
 
 //
 // Hardware configuration
@@ -51,7 +51,7 @@ void setup(void)
 {
   if (serialOn) {
     Serial.begin(9600);
-  delay(100); // For serial print
+    delay(100); // For serial print
   }
   
   // Setup and configure rf radio
