@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/code/home-conditions
+WorkingDirectory=/home/pi/code/home-conditions/
 ExecStart=/home/pi/code/home-conditions/webserver-start.sh
 Restart=on-abort
 
