@@ -34,6 +34,8 @@ $ FLASK_APP=webserver.py python -m flask run --host=0.0.0.0
 
 ## Running as systemd services
 
+### Setup
+
 Copy the service files
 
 ```
@@ -47,4 +49,11 @@ sudo systemctl enable home-conditions-receive.service
 sudo systemctl enable home-conditions-webserver.service
 sudo systemctl start home-conditions-receive.service
 sudo systemctl start home-conditions-webserver.service
+```
+
+### Viewing the logs
+
+```
+journalctl -u home-conditions-receive
+journalctl -u home-conditions-webserver
 ```
