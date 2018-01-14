@@ -23,6 +23,12 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+@app.context_processor
+def utility_processor():
+    def temp_c_to_f(tempc):
+        return float(tempc) * 1.8 + 32
+    return dict(temp_c_to_f=temp_c_to_f)
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
