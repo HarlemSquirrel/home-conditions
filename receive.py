@@ -93,7 +93,7 @@ while 1:
     if irq_gpio_pin is None:
         # no irq pin is set up -> poll it
         try_read_data()
-        time.sleep(50)
+        time.sleep(8)
     else:
         # callback routine set for irq pin takes care for reading -
         # do nothing, just sleeps in order not to burn cpu by looping
