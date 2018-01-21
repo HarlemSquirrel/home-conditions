@@ -42,6 +42,7 @@ def hello_world():
 @app.route('/data')
 def data_route():
     table = query_db('select timestamp, location, humidity, temp_c from temps')
+    table.reverse()
     timestamps = [i[0] for i in table]
     humidities = [i[2] for i in table]
     ctemps = [i[3] for i in table]
