@@ -57,7 +57,7 @@ void setup(void) {
   radio.enableDynamicPayloads();
   radio.setRetries(10,15);  // The delay between retries & # of retries
   radio.openWritingPipe(pipes[0]);
-  radio.openReadingPipe(1,pipes[1]);
+  //radio.openReadingPipe(1,pipes[1]);
   //radio.startListening();
 
   radio.printDetails();
@@ -70,10 +70,10 @@ void loop(void) {
   // Read humidity and temperature
   float h = dht.readHumidity();
   float temp_c = dht.readTemperature();
-  float temp_f = dht.readTemperature(true);
+  //float temp_f = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
-  if (isnan(h) || isnan(temp_c) || isnan(temp_f)) {
+  if (isnan(h) || isnan(temp_c)) {
     //Serial.println("Failed to read from DHT sensor!");
     delay(2000); // 2 seconds
     return;
@@ -104,6 +104,7 @@ void loop(void) {
   //Serial.println(json);
   radio.write( json, sizeof(json));
 
+  /*
   // Wait here until we get a response, or timeout
   radio.startListening();
   unsigned long started_waiting_at = millis();
@@ -112,6 +113,7 @@ void loop(void) {
     if (millis() - started_waiting_at > timeoutPeriod )
       timeout = true;
 
+
   // Describe the results
   if ( timeout ) {
     //Serial.println(F("Failed, response timed out. Trying once more."));
@@ -119,22 +121,24 @@ void loop(void) {
     delay(1000); // 1 second
     radio.write( json, sizeof(json));
   } else {
+
     // Grab the response, compare, and send to debugging spew
     uint8_t len = radio.getDynamicPayloadSize();
-    
+
     // If a corrupt dynamic payload is received, it will be ignored
     if(len) {
       radio.read( receive_payload, len );
-  
+
       // Put a zero at the end for easy printing
       receive_payload[len] = 0;
-  
+
       //Serial.print(F("Got response size="));
       //Serial.print(len);
       //Serial.print(F(" value="));
       //Serial.println(receive_payload);
     }
   }
+  */
   //Serial.print("Sleeping 1 hour...");
   sleep.pwrDownMode();
   sleep.sleepDelay(sleepTime);
