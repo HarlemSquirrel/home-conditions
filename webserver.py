@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
+from datetime import datetime, timedelta
 import json
 import sqlite3
 
 # Install flask with `apt install python-flask` or `pip install Flask`
-from flask import Flask
-from flask import g
-from flask import render_template
+from flask import Flask, g, jsonify, render_template, request
 
 app = Flask(__name__)
 DATABASE = 'data/data.sqlite3'
@@ -50,3 +49,22 @@ def data_route():
     # for temp_row in query_db('select location, temp_c from temps'):
         # print temp_row
         # print temp_row[0], ': ', temp_row[1], 'degrees C, '
+
+@app.route('/temps', methods=['GET'])
+def temps_route():
+    hours_ago = request.args.get('hoursago')
+    if hours_ago is not None:
+        # print('Time ago supplied is ' + hours_ago)
+        date = datetime.now() - timedelta(hours=int(hours_ago))
+        temps_array = query_db('SELECT timestamp, location, humidity, temp_c FROM temps WHERE timestamp > ?',
+                               [date])
+    else:
+        temps_array = query_db('select timestamp, location, humidity, temp_c from temps')
+
+    temp_dicts = []
+    for temp_array in temps_array:
+        keys = ['timestamp', 'location', 'humidity', 'tempC']
+        d = dict(zip(keys, temp_array))
+        temp_dicts.append(d)
+
+    return jsonify(temps=temp_dicts)
