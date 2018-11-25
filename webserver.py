@@ -5,7 +5,8 @@ import json
 import sqlite3
 
 # Install flask with `apt install python-flask` or `pip install Flask`
-from flask import Flask, g, jsonify, render_template, request
+from flask import abort, Flask, g, jsonify, render_template, request
+from functools import wraps
 
 app = Flask(__name__)
 DATABASE = 'data/data.sqlite3'
@@ -18,9 +19,23 @@ def get_db():
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
-    rv = cur.fetchall()
+    if one:
+        rv = cur.fetchone()
+    else:
+        rv = cur.fetchall()
     cur.close()
-    return (rv[0] if rv else None) if one else rv
+    return rv
+
+# Requiring an key decorator
+def require_appkey(view_function):
+    @wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        key = request.args.get('key')
+        if key and query_db('SELECT id FROM apikeys WHERE key = ?', [key], True):
+            return view_function(*args, **kwargs)
+        else:
+            abort(401)
+    return decorated_function
 
 @app.context_processor
 def utility_processor():
@@ -46,15 +61,12 @@ def data_route():
     humidities = [i[2] for i in table]
     ctemps = [i[3] for i in table]
     return render_template('data.html', table=table, humidities=json.dumps(humidities), timestamps=json.dumps(timestamps), ctemps=json.dumps(ctemps))
-    # for temp_row in query_db('select location, temp_c from temps'):
-        # print temp_row
-        # print temp_row[0], ': ', temp_row[1], 'degrees C, '
 
 @app.route('/temps', methods=['GET'])
+@require_appkey
 def temps_route():
     hours_ago = request.args.get('hoursago')
     if hours_ago is not None:
-        # print('Time ago supplied is ' + hours_ago)
         date = datetime.now() - timedelta(hours=int(hours_ago))
         temps_array = query_db('SELECT timestamp, location, humidity, temp_c FROM temps WHERE timestamp > ?',
                                [date])
